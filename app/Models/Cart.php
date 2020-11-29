@@ -21,8 +21,8 @@ class Cart
     public function addCart($product, $id){
         $newProduct = ['qty'=>0, 'productInfo'=> $product, 'price'=> $product->price];
         if ($this->product){
-            if (isset($id, $product)){
-                 $newProduct = $product[$id];
+            if (isset($id, $this->product)){
+                 $newProduct = $this->product[$id];
             }
         }
         $newProduct['qty']++;

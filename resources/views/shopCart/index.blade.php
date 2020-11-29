@@ -402,17 +402,6 @@
         });
     });
 
-    // $('.addToCart').click(function () {
-    //     let id = $(this).data('id');
-    //     $.ajax({
-    //         url: 'addCart/'+ id,
-    //         type: 'GET',
-    //         success: function (data) {
-    //             $('#change-cart-item').empty();
-    //             $('#change-cart-item').html(data);
-    //         }
-    //     });
-    // });
     function addCart(id) {
         console.log(id);
         $.ajax({
