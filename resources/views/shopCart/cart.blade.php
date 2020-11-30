@@ -1,7 +1,5 @@
 @if($newCart != null)
 
-
-OK
 <div class="select-items">
     <table>
         <tbody>
