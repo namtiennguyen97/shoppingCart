@@ -59,5 +59,25 @@ class ProductController extends Controller
 
         return view('shopCart.cart');
     }
+// delete cart-detail
+    public function deleteCartDetail(Request $request,$id){
+        $oldCart = Session('Cart') ? Session('Cart') : null;
+        $newCart = new Cart($oldCart);
+        $newCart->deleteCart($id);
+        if (count($newCart->product)> 0){
+            $request->session()->put('Cart', $newCart);
+        }
+        else{
+            $request->session()->forget('Cart');
+        }
+
+        return view('shopCart.list-cart');
+    }
+
+
+    //view cart detail
+    public function cartDetail(){
+        return view('shopCart.cartDetail');
+    }
 
 }

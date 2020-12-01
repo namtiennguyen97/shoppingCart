@@ -51,7 +51,7 @@
 <section class="shopping-cart spad">
     <div class="container">
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-12" id="list-cart">
                 <div class="cart-table">
                     <table>
                         <thead>
@@ -66,57 +66,27 @@
                         </tr>
                         </thead>
                         <tbody>
+                        @if(\Illuminate\Support\Facades\Session::has('Cart') != null)
+                            @foreach(\Illuminate\Support\Facades\Session::get('Cart')->product as $items)
                         <tr>
-                            <td class="cart-pic first-row"><img src="{{asset('shopCart/img/cart-page/product-1.jpg')}}" alt=""></td>
+                            <td class="cart-pic first-row"><img src="{{asset('storage/'.$items['productInfo']->image)}}" alt=""></td>
                             <td class="cart-title first-row">
-                                <h5>Pure Pineapple</h5>
+                                <h5>{{$items['productInfo']->name}}</h5>
                             </td>
-                            <td class="p-price first-row">$60.00</td>
+                            <td class="p-price first-row">{{number_format($items['productInfo']->price)}}</td>
                             <td class="qua-col first-row">
                                 <div class="quantity">
                                     <div class="pro-qty">
-                                        <input type="text" value="1">
+                                        <input type="text" value="{{$items['qty']}}">
                                     </div>
                                 </div>
                             </td>
-                            <td class="total-price first-row">$60.00</td>
-                            <td class="close-td first-row"><i class="ti-close"></i></td>
+                            <td class="total-price first-row">{{number_format($items['price'])}}</td>
+                            <td class="close-td first-row"><i class="ti-close"  onclick="deleteCartDetail({{$items['productInfo']->id}})"></i></td>
                             <td class="close-td first-row"><i class="ti-save"></i></td>
                         </tr>
-                        <tr>
-                            <td class="cart-pic"><img src="{{asset('shopCart/img/cart-page/product-2.jpg')}}" alt=""></td>
-                            <td class="cart-title">
-                                <h5>American lobster</h5>
-                            </td>
-                            <td class="p-price">$60.00</td>
-                            <td class="qua-col">
-                                <div class="quantity">
-                                    <div class="pro-qty">
-                                        <input type="text" value="1">
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="total-price">$60.00</td>
-                            <td class="close-td"><i class="ti-close"></i></td>
-                            <td class="close-td"><i class="ti-save"></i></td>
-                        </tr>
-                        <tr>
-                            <td class="cart-pic"><img src="{{asset('shopCart/img/cart-page/product-3.jpg')}}" alt=""></td>
-                            <td class="cart-title">
-                                <h5>Guangzhou sweater</h5>
-                            </td>
-                            <td class="p-price">$60.00</td>
-                            <td class="qua-col">
-                                <div class="quantity">
-                                    <div class="pro-qty">
-                                        <input type="text" value="1">
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="total-price">$60.00</td>
-                            <td class="close-td"><i class="ti-close"></i></td>
-                            <td class="close-td"><i class="ti-save"></i></td>
-                        </tr>
+                        @endforeach
+                        @endif
                         </tbody>
                     </table>
                 </div>
@@ -124,8 +94,8 @@
                     <div class="col-lg-4 offset-lg-8">
                         <div class="proceed-checkout">
                             <ul>
-                                <li class="subtotal">Subtotal <span>$240.00</span></li>
-                                <li class="cart-total">Total <span>$240.00</span></li>
+                                <li class="subtotal">Total Qty <span>{{\Illuminate\Support\Facades\Session::get('Cart')->totalQty}}</span></li>
+                                <li class="cart-total">Total <span>{{number_format(\Illuminate\Support\Facades\Session::get('Cart')->totalPrice)}} VND</span></li>
                             </ul>
                             <a href="#" class="proceed-btn">PROCEED TO CHECK OUT</a>
                         </div>
@@ -169,6 +139,20 @@
 <script src="{{asset('shopCart/js/jquery.slicknav.js')}}"></script>
 <script src="{{asset('shopCart/js/owl.carousel.min.js')}}"></script>
 <script src="{{asset('shopCart/js/main.js')}}"></script>
+<script>
+  function deleteCartDetail(id) {
+      console.log(id);
+      $.ajax({
+          url: 'delete-detail-cart/'+ id,
+          type: 'GET',
+          success: function (data) {
+              $('#list-cart').empty();
+              $('#list-cart').html(data);
+              alertify.success('Delete Your Item!');
+          }
+      });
+  }
+</script>
 </body>
 
 </html>

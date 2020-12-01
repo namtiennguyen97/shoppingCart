@@ -137,7 +137,7 @@
                                     @endif
                                 </div>
                                 <div class="select-button">
-                                    <a href="#" class="primary-btn view-card">VIEW CARD</a>
+                                    <a href="{{route('product.cart.detail')}}" class="primary-btn view-card">VIEW CARD</a>
                                     <a href="#" class="primary-btn checkout-btn">CHECK OUT</a>
                                 </div>
                             </div>
@@ -431,7 +431,6 @@
     });
 
     function addCart(id) {
-        console.log(id);
         $.ajax({
             url: 'shopping/addCart/' + id,
             type: 'GET',
