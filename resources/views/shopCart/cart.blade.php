@@ -15,6 +15,7 @@
             <td class="si-close">
                 <i class="ti-close" data-id="{{$item['productInfo']->id}}"></i>
             </td>
+            <input id="qtyCart-cart" hidden type="number" value="{{\Illuminate\Support\Facades\Session::get('Cart')->totalQty}}">
         </tr>
         @endforeach
         </tbody>

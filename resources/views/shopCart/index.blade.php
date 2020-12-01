@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="{{asset('shopCart/css/style.css')}}" type="text/css">
 
     {{--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">--}}
-{{--        <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>--}}
+    {{--        <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>--}}
 </head>
 
 <body>
@@ -96,18 +96,46 @@
                         </li>
                         <li class="cart-icon"><a href="#">
                                 <i class="icon_bag_alt"></i>
-                                <span>3</span>
+                                @if(\Illuminate\Support\Facades\Session::has('Cart') != null)
+                                <span id="qtyCart-show">{{\Illuminate\Support\Facades\Session::get('Cart')->totalQty}}</span>
+                                    @else
+                                    <span id="qtyCart-show">0</span>
+                                @endif
                             </a>
                             <div class="cart-hover">
                                 <div id="change-cart-item">
-                                <div class="select-items">
+                                    @if(\Illuminate\Support\Facades\Session::has('Cart') != null)
+
+                                        <div class="select-items">
+                                            <table>
+                                                <tbody>
+                                                @foreach(\Illuminate\Support\Facades\Session::get('Cart')->product as $item)
+                                                    <tr>
+                                                        <td class="si-pic"><img
+                                                                src="{{asset('storage/'.$item['productInfo']->image)}}"
+                                                                style="width: 70px" alt=""></td>
+                                                        <td class="si-text">
+                                                            <div class="product-selected">
+                                                                <p>{{number_format($item['productInfo']->price)}}
+                                                                    x {{$item['qty']}}</p>
+                                                                <h6>{{$item['productInfo']->name}}</h6>
+                                                            </div>
+                                                        </td>
+                                                        <td class="si-close">
+                                                            <i class="ti-close"
+                                                               data-id="{{$item['productInfo']->id}}"></i>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="select-total">
+                                            <span>total:</span>
+                                            <h5>{{\Illuminate\Support\Facades\Session::get('Cart')->totalPrice}}₫</h5>
+                                        </div>
+                                    @endif
                                 </div>
-                                </div>
-{{--                                over here--}}
-{{--                                <div class="select-total">--}}
-{{--                                    <span>total:</span>--}}
-{{--                                    <h5>₫120.00</h5>--}}
-{{--                                </div>--}}
                                 <div class="select-button">
                                     <a href="#" class="primary-btn view-card">VIEW CARD</a>
                                     <a href="#" class="primary-btn checkout-btn">CHECK OUT</a>
@@ -409,36 +437,28 @@
             type: 'GET',
             success: function (data) {
                 console.log(data);
-                $('#change-cart-item').empty();
-                $('#change-cart-item').html(data);
+                RenderCart(data);
                 alertify.success('Added to Your Cart!');
             }
         });
     }
 
-    // $('.ti-close').click(function () {
-    //     $.ajax({
-    //         url: 'shopping/deleteCart/'+ $(this).data('id'),
-    //         type: 'GET',
-    //         success: function (data) {
-    //             $('#change-cart-item').empty();
-    //             $('#change-cart-item').html(data);
-    //             alertify.success('Delete Your Item!');
-    //         }
-    //     });
-    // });
-
-    $('#change-cart-item').on('click','.si-close i', function () {
+    $('#change-cart-item').on('click', '.si-close i', function () {
         $.ajax({
-            url: 'shopping/deleteCart/'+ $(this).data('id'),
+            url: 'shopping/deleteCart/' + $(this).data('id'),
             type: 'GET',
             success: function (data) {
-                $('#change-cart-item').empty();
-                $('#change-cart-item').html(data);
+               RenderCart(data);
                 alertify.success('Delete Your Item!');
             }
         });
     })
+
+    function RenderCart(data) {
+        $('#change-cart-item').empty();
+        $('#change-cart-item').html(data);
+        $('#qtyCart-show').text($('#qtyCart-cart').val());
+    }
 
 </script>
 
