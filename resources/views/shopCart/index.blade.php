@@ -104,10 +104,10 @@
                                 </div>
                                 </div>
 {{--                                over here--}}
-                                <div class="select-total">
-                                    <span>total:</span>
-                                    <h5>₫120.00</h5>
-                                </div>
+{{--                                <div class="select-total">--}}
+{{--                                    <span>total:</span>--}}
+{{--                                    <h5>₫120.00</h5>--}}
+{{--                                </div>--}}
                                 <div class="select-button">
                                     <a href="#" class="primary-btn view-card">VIEW CARD</a>
                                     <a href="#" class="primary-btn checkout-btn">CHECK OUT</a>
@@ -405,7 +405,7 @@
     function addCart(id) {
         console.log(id);
         $.ajax({
-            url: 'addCart/' + id,
+            url: 'shopping/addCart/' + id,
             type: 'GET',
             success: function (data) {
                 console.log(data);
@@ -415,6 +415,31 @@
             }
         });
     }
+
+    // $('.ti-close').click(function () {
+    //     $.ajax({
+    //         url: 'shopping/deleteCart/'+ $(this).data('id'),
+    //         type: 'GET',
+    //         success: function (data) {
+    //             $('#change-cart-item').empty();
+    //             $('#change-cart-item').html(data);
+    //             alertify.success('Delete Your Item!');
+    //         }
+    //     });
+    // });
+
+    $('#change-cart-item').on('click','.si-close i', function () {
+        $.ajax({
+            url: 'shopping/deleteCart/'+ $(this).data('id'),
+            type: 'GET',
+            success: function (data) {
+                $('#change-cart-item').empty();
+                $('#change-cart-item').html(data);
+                alertify.success('Delete Your Item!');
+            }
+        });
+    })
+
 </script>
 
 </body>

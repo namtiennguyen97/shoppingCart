@@ -20,9 +20,10 @@ Route::group(['prefix'=>'shopping'], function (){
     Route::get('/',[\App\Http\Controllers\ProductController::class,'index'])->name('product.index');
     Route::get('/create',[\App\Http\Controllers\ProductController::class, 'create'])->name('product.create');
     Route::post('/create',[\App\Http\Controllers\ProductController::class,'store'])->name('product.store');
+    Route::get('/addCart/{id}',[\App\Http\Controllers\ProductController::class,'addCart'])->name('product.addCart');
+    Route::get('/deleteCart/{id}', [\App\Http\Controllers\ProductController::class, 'deleteItemCart'])->name('product.deleteItemCart');
 });
 
-Route::get('/addCart/{id}',[\App\Http\Controllers\ProductController::class,'addCart'])->name('product.addCart');
 
 
 

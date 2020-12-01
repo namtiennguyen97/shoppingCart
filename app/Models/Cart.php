@@ -35,7 +35,12 @@ class Cart
         $this->product[$id] = $newProduct;
         $this->totalPrice += $product->price;
         $this->totalQty++;
+    }
 
+    public function deleteCart($id){
+        $this->totalQty -= $this->product[$id]['qty'];
+        $this->totalPrice -= $this->product[$id]['price'];
+        unset($this->product[$id]);
     }
 
 }
