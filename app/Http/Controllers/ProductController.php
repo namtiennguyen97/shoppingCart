@@ -42,7 +42,7 @@ class ProductController extends Controller
            $newCart->addCart($product, $id);
            $request->session()->put('Cart', $newCart);
         }
-       return view('shopCart.cart', compact('newCart'));
+       return view('shopCart.cart');
 
     }
 
@@ -57,7 +57,7 @@ class ProductController extends Controller
             $request->session()->forget('Cart');
         }
 
-        return view('shopCart.cart', compact('newCart'));
+        return view('shopCart.cart');
     }
 
 }
